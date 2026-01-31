@@ -34,10 +34,17 @@ import telebot
 from telebot.types import Message
 import requests
 from requests.exceptions import JSONDecodeError, RequestException
+from dotenv import load_dotenv
+import os
 
+
+load_dotenv()  # ← Загружает переменные из .env в os.environ
 API_URL = "http://127.0.0.1:8000/api"
-BOT_TOKEN = "8506817434:AAGL-o2XrOTsZishcIMhOidBcmGj8hhMAE4"
-bot = telebot.TeleBot(BOT_TOKEN)
+MY_BOT_TOKEN = os.getenv('BOT_TOKEN')
+if not MY_BOT_TOKEN:
+    raise ValueError("❌ BOT_TOKEN не найден в .env! Проверьте файл и имя переменной.")
+
+bot = telebot.TeleBot(MY_BOT_TOKEN)
 
 
 @bot.message_handler(commands=['start'])
